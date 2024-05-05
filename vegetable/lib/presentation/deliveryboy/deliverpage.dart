@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:vegetable/presentation/cart/address/addressmodel.dart';
 import 'package:vegetable/presentation/cart/address/addressservice.dart';
 import 'package:vegetable/presentation/deliveryboy/deliverysevice.dart';
+import 'package:vegetable/presentation/deliveryboy/deliverystatus.dart';
+import 'package:vegetable/presentation/main_page/otp/emaillotp.dart';
 import 'package:vegetable/presentation/farmerui/homepage.dart';
 
 //66358c30c4cc88d616f73ca3
@@ -71,6 +74,13 @@ class _DeliverypageState extends State<Deliverypage> {
               "Order Address Details",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+            MaterialButton(onPressed: (){
+                    Navigator.of(context).push(PageTransition(
+                              child:  DeliveryStatus(),
+                              type: PageTransitionType.bottomToTopJoined,
+                              childCurrent: Container()));
+
+            },child: Text("Delivery status",style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),),
        Container(
         height: 1000,
          child: ListView.builder(itemBuilder: (context, index) {

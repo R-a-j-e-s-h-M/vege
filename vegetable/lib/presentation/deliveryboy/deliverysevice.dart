@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:auth_email/auth_email.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:page_transition/page_transition.dart';
@@ -8,6 +9,7 @@ import 'package:vegetable/constant/colors.dart';
 import 'package:vegetable/presentation/cart/address/addressmodel.dart';
 import 'package:vegetable/presentation/cart/address/addressservice.dart';
 import 'package:vegetable/presentation/deliveryboy/deliverpage.dart';
+import 'package:vegetable/presentation/main_page/otp/emaillotp.dart';
 import 'package:vegetable/presentation/farmer/farmerauthservice.dart';
 
 import 'package:vegetable/presentation/home/home.dart';
@@ -247,7 +249,7 @@ void httpErrorHandle({
     case 200:
       onSuccess();
       Navigator.of(context).push(PageTransition(
-          child:  Deliverypage(),
+          child:  AuthEmailApp(),
           type: PageTransitionType.rightToLeftWithFade,
           childCurrent: Container()));
       break;

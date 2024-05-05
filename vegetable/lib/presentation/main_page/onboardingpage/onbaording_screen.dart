@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:vegetable/fetchmap/fetch_map_location.dart';
+import 'package:vegetable/presentation/main_page/otp/emaillotp.dart';
 import 'package:vegetable/presentation/main_page/otp/otp.dart';
 
 
@@ -84,7 +85,7 @@ class Onboardingscreen extends StatelessWidget {
 
   void onDone(context) {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) =>LoginPage()));
+        context, MaterialPageRoute(builder: (context) =>AuthEmailApp()));
   }
 }
 

@@ -6,8 +6,8 @@ const crypto = require("crypto");
 const key = "verysecretkey"; // Key for cryptograpy. Keep it secret
 var msg91 = require("msg91").default;
 msg91.initialize({authKey: key});
-//const accountid="ACf79fd7053c2a3a97c838d8c26ad7c560"
-//const authtoken="e4a1f06bab63f53ebfedb7de96d02c6a"
+const accountid="ACf79fd7053c2a3a97c838d8c26ad7c560"
+const authtoken="e4a1f06bab63f53ebfedb7de96d02c6a"
 
 
 
