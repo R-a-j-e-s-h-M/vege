@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
+
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:vegetable/presentation/cart/addmap.dart';
 import 'package:vegetable/presentation/cart/address/addressservice.dart';
 import 'package:vegetable/presentation/cart/checkout.dart';
+import 'package:vegetable/presentation/cart/paymentone.dart';
 import 'package:vegetable/presentation/cart/razor.dart';
 import 'package:vegetable/presentation/home/customer/customerservice.dart';
 
 class Addressdetails extends StatefulWidget {
-  const Addressdetails({super.key});
+  final String money;
+  const Addressdetails({super.key, required this.money});
 
   @override
   State<Addressdetails> createState() => _AddressdetailsState();
@@ -24,7 +24,7 @@ class _AddressdetailsState extends State<Addressdetails> {
   final TextEditingController landmarkcontroller = TextEditingController();
   double? latitude;
   final _addressFormKey = GlobalKey<FormState>();
-  
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -146,7 +146,6 @@ class _AddressdetailsState extends State<Addressdetails> {
             SizedBox(
               height: 10,
             ),
-            
             MaterialButton(
               onPressed: addadress,
               child: Text("add"),
@@ -157,7 +156,7 @@ class _AddressdetailsState extends State<Addressdetails> {
             MaterialButton(
               onPressed: () {
                 Navigator.of(context).push(PageTransition(
-                    child: Payementpage(),
+                    child: Payementpage(pay:widget.money),
                     type: PageTransitionType.bottomToTopPop,
                     childCurrent: Container()));
               },

@@ -18,7 +18,122 @@ class SearchServices {
     try {
        
       http.Response res = await http.get(
-        Uri.parse('$uri/api/products/search/$searchQuery'),
+        Uri.parse('$uri/api/products/search/name/$searchQuery'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            productList.add(
+              User.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return productList;
+  }
+
+
+
+
+  Future<List<User>> fetchSearchedProduc({
+    required BuildContext context,
+    required String searchQuery,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<User> productList = [];
+    try {
+       
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/products/search/district/$searchQuery'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            productList.add(
+              User.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return productList;
+  }
+
+
+
+  Future<List<User>> fetchSearchedProdu({
+    required BuildContext context,
+    required String searchQuery,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<User> productList = [];
+    try {
+       
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/products/search/place/$searchQuery'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'x-auth-token': userProvider.user.token,
+        },
+      );
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          for (int i = 0; i < jsonDecode(res.body).length; i++) {
+            productList.add(
+              User.fromJson(
+                jsonEncode(
+                  jsonDecode(res.body)[i],
+                ),
+              ),
+            );
+          }
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return productList;
+  }
+  Future<List<User>> fetchSearchedProd({
+    required BuildContext context,
+    required String searchQuery,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<User> productList = [];
+    try {
+       
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/products/search/village/$searchQuery'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'x-auth-token': userProvider.user.token,

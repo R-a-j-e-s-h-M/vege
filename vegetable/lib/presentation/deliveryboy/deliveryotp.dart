@@ -1,9 +1,26 @@
-import 'package:auth_email/auth_email.dart';
-import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:vegetable/presentation/customer/customerorfarmer.dart';
 
-// This only use for testing purposes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import 'package:flutter/material.dart';
+
+import 'package:auth_email/auth_email.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:vegetable/presentation/deliveryboy/deliverystatus.dart';
+
 final authEmail = AuthEmail(
   appName: 'Auth Email Example',
   server: 'https://pub.lamnhan.dev/auth-email/api',
@@ -12,14 +29,14 @@ final authEmail = AuthEmail(
 );
 
 
-class AuthEmailApp extends StatefulWidget {
-  const AuthEmailApp({Key? key}) : super(key: key);
+class AuthEmailAp extends StatefulWidget {
+  const AuthEmailAp({Key? key}) : super(key: key);
 
   @override
-  State<AuthEmailApp> createState() => _AuthEmailAppState();
+  State<AuthEmailAp> createState() => _AuthEmailApState();
 }
 
-class _AuthEmailAppState extends State<AuthEmailApp> {
+class _AuthEmailApState extends State<AuthEmailAp> {
   String sendOtpButton = 'Send OTP';
   String verifyOtpButton = 'Verify OTP';
 
@@ -91,7 +108,7 @@ class _AuthEmailAppState extends State<AuthEmailApp> {
                   setState(() {
                     verifyOtpButton = 'Verified OTP';
                      Navigator.of(context).push(PageTransition(
-                              child:  Customerorfarmer(),
+                              child:  DeliveryStatus(),
                               type: PageTransitionType.bottomToTopJoined,
                               childCurrent: Container()));
                     

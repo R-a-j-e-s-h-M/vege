@@ -1,7 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:im_stepper/stepper.dart';
+import 'package:vegetable/presentation/farmerui/homepage.dart';
+import 'package:vegetable/presentation/myorder/ordermodel.dart';
+
 import 'package:vegetable/presentation/myorder/timelineui.dart';
+
+import 'orderservice.dart';
 
 class TrackOrder extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -14,6 +17,47 @@ class TrackOrder extends StatefulWidget {
 
 class _TrackOrderState extends State<TrackOrder> {
   String packed = "packed";
+  final Orderdeliveredservice orderdeliver = Orderdeliveredservice();
+  final Orderdispatchedservice orderdispatch = Orderdispatchedservice();
+  final Orderplacedservice orderplace = Orderplacedservice();
+  final Orderpackedservice orderpack = Orderpackedservice();
+
+  List<Orderdelivered>? orderdelivered = [];
+  List<Orderdispatched>? orderdispatched = [];
+  List<Orderplaced>? orderplaced = [];
+  List<Orderpacked>? orderpacked = [];
+
+  @override
+  void initState() {
+    
+    super.initState();
+    fetchorderdeliver();
+    fetchorderpacked();
+    fetchorderplaced();
+    fetchorderdispatched();
+  }
+
+  fetchorderdeliver() async {
+    orderdelivered = await orderdeliver.fetchAlldelivered(context);
+    setState(() {});
+  }
+
+  fetchorderplaced() async {
+    orderplaced = await orderplace.fetchplaced(context);
+    setState(() {});
+  }
+
+  fetchorderpacked() async {
+    orderpacked = await orderpack.fetchAllpacked(context);
+    setState(() {});
+  }
+
+  fetchorderdispatched() async {
+    orderdispatched = await orderdispatch.fetchAlldispatched(context);
+    setState(() {
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +70,11 @@ class _TrackOrderState extends State<TrackOrder> {
       body: Padding(
         padding: const EdgeInsets.only(left: 30.0, right: 30.0),
         child: ListView(
-          children:  [
+          children: [
             TimeLineTileUI(
               isFirst: true,
               isLast: false,
-              isPast: true,
+              isPast: orderplaced!.length==0?false:true,
               eventChild: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -49,8 +93,8 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ],
                   ),
-                  Text(
-                    'Your order is placed successfully. It is yet to be packed & shipped.',
+                  orderplaced!.length==0?Loader():Text(
+                    orderplaced![0].orderplaced,
                     style: TextStyle(color: Colors.white),
                   ),
                 ],
@@ -59,7 +103,7 @@ class _TrackOrderState extends State<TrackOrder> {
             TimeLineTileUI(
               isFirst: false,
               isLast: false,
-              isPast: packed.length>5?true:false,
+              isPast: orderpacked!.length==0? false : true,
               eventChild: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -78,8 +122,8 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ],
                   ),
-                  Text(
-                    'Your order is packed & ready to dispatch from our warehouse.',
+                 orderpacked!.length==0?Loader(): Text(
+                    orderpacked![0].orderpacked,
                     style: TextStyle(color: Colors.white),
                   ),
                 ],
@@ -88,7 +132,7 @@ class _TrackOrderState extends State<TrackOrder> {
             TimeLineTileUI(
               isFirst: false,
               isLast: false,
-              isPast: packed.length>10?true:false,
+              isPast: orderdispatched!.length==0? false : true,
               eventChild: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -107,8 +151,8 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ],
                   ),
-                  Text(
-                    'Your order is dispatched from our warehouse, it will take 5-7 working days for you to get the delivery.',
+                 orderdispatched!.length==0?Loader(): Text(
+          orderdispatched![0].orderdispatched,
                     style: TextStyle(color: Colors.white),
                   ),
                 ],
@@ -117,7 +161,7 @@ class _TrackOrderState extends State<TrackOrder> {
             TimeLineTileUI(
               isFirst: false,
               isLast: true,
-              isPast: true,
+              isPast: orderdelivered!.length==0?false:true,
               eventChild: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -136,8 +180,8 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                     ],
                   ),
-                  Text(
-                    'You will get your order on 8th of December, please be available at your address to receive the order.',
+                  orderdelivered!.length==0?Loader():Text(
+                    orderdelivered![0].orderdelivered,
                     style: TextStyle(color: Colors.white),
                   ),
                 ],

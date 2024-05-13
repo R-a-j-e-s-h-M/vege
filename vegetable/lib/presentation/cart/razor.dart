@@ -3,20 +3,18 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
 
-
-
-  class Payementpage extends StatefulWidget {
-  const Payementpage({super.key});
+class Payementpage extends StatefulWidget {
+  final String pay;
+  const Payementpage({super.key, required this.pay});
 
   @override
   State<Payementpage> createState() => _PayementpageState();
 }
 
 class _PayementpageState extends State<Payementpage> {
-  
-Razorpay? _razorpay = Razorpay();
+  Razorpay? _razorpay = Razorpay();
 
- @override
+  @override
   void initState() {
     super.initState();
     _razorpay = Razorpay();
@@ -24,8 +22,8 @@ Razorpay? _razorpay = Razorpay();
     _razorpay?.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay?.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
-   
-   @override
+
+  @override
   void dispose() {
     super.dispose();
     _razorpay?.clear();
@@ -69,7 +67,7 @@ Razorpay? _razorpay = Razorpay();
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
@@ -92,14 +90,14 @@ Razorpay? _razorpay = Razorpay();
               child: Column(
                 children: <Widget>[
                   Text(
-                    '\$1.88',
+                    widget.pay,
                     style: TextStyle(
                         fontSize: 22.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.blue.shade900),
                   ),
                   const SizedBox(height: 10.0),
-                  const Text(' Ice Cream',
+                  const Text(' Total payment',
                       style: TextStyle(color: Colors.grey, fontSize: 24.0)),
                 ],
               ),

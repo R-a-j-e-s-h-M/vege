@@ -5,9 +5,11 @@ import 'package:vegetable/presentation/cart/address/addressservice.dart';
 import 'package:vegetable/presentation/cart/cartprovider.dart';
 import 'package:vegetable/presentation/farmer/farmerauthservice.dart';
 import 'package:vegetable/presentation/farmer/productmodel.dart';
+import 'package:vegetable/presentation/farmerdetails/farmerprovider.dart';
 import 'package:vegetable/presentation/home/customer/customerservice.dart';
 import 'package:vegetable/presentation/home/vegetablelisting.dart';
 import 'package:vegetable/presentation/main_page/onboardingpage/onbaording_screen.dart';
+import 'package:vegetable/router.dart';
 
 void main() {
   runApp(MultiProvider(providers: [
@@ -18,12 +20,14 @@ void main() {
     ),
     
     
-    
+    ChangeNotifierProvider(create: (context) => FarmerProvider()),
    
     ChangeNotifierProvider(create: (context) => CustomerProvider()),
     ChangeNotifierProvider(create: (context) => CartProvider()),
-    ChangeNotifierProvider(create: (context) => AddressProvider())
-  ], child: const MyApp()));
+    ChangeNotifierProvider(create: (context) => AddressProvider()),
+    
+  ],
+   child: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -54,6 +58,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       home: Onboardingscreen(),
+       onGenerateRoute: (settings) => generateRoute(settings),
     );
   }
 }

@@ -21,38 +21,7 @@ class _AppbarwidgetState extends State<Appbarwidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(PageTransition(
-                  child: const CurrentLocationFetching(),
-                  type: PageTransitionType.bottomToTopJoined,
-                  childCurrent: Container()));
-            },
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Column(
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Locating...",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
-                      ),
-                      Text("india 690502"),
-                      Icon(Icons.arrow_circle_down)
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          
           InkWell(
             onTap: () {},
             child: Container(

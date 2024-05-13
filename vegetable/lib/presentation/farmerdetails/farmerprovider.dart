@@ -1,20 +1,20 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vegetable/presentation/cart/cartmodel.dart';
-import 'package:vegetable/presentation/cart/dbhelper.dart';
+import 'package:vegetable/presentation/farmerdetails/farmerdb.dart';
+import 'package:vegetable/presentation/farmerdetails/farmermodel.dart';
 
-class CartProvider with ChangeNotifier {
-  DBHelper db = DBHelper();
+class FarmerProvider with ChangeNotifier {
+  DB db = DB();
+
   int _counter = 0;
   int get counter => _counter;
 
   double _totalPrice = 0.0;
   double get totalPrice => _totalPrice;
+  late Future<List<Farmer>> _cart;
+  Future<List<Farmer>> get cart => _cart;
 
-  late Future<List<Cart>> _cart;
-  Future<List<Cart>> get cart => _cart;
-
-  Future<List<Cart>> getData() async {
+  Future<List<Farmer>> getData() async {
     _cart = db.getCartList();
     return _cart;
   }
@@ -32,43 +32,16 @@ class CartProvider with ChangeNotifier {
     _totalPrice = prefs.getDouble('total_price') ?? 0.0;
     notifyListeners();
   }
-
+  
   void addTotalPrice(double productPrice) {
     _totalPrice = _totalPrice + productPrice;
     _setPrefItems();
     notifyListeners();
   }
 
-  void removeTotalPrice(double productPrice) {
-    _totalPrice = _totalPrice - productPrice;
-
-    _setPrefItems();
-    notifyListeners();
-  }
-
-  double getTotalPrice() {
-    _getPrefItems();
-    return _totalPrice;
-  }
-
-  void removeprice() {
-    _totalPrice = 0;
-  }
-
   void addCounter() {
     _counter++;
     _setPrefItems();
     notifyListeners();
-  }
-
-  void removerCounter() {
-    _counter--;
-    _setPrefItems();
-    notifyListeners();
-  }
-
-  int getCounter() {
-    _getPrefItems();
-    return _counter;
   }
 }

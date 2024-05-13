@@ -6,9 +6,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:substring_highlight/substring_highlight.dart';
 import 'package:vegetable/presentation/farmer/farmerauthservice.dart';
 import 'package:vegetable/presentation/farmer/productmodel.dart';
+
 import 'package:vegetable/presentation/home/card/card_widget.dart';
+
 import 'package:vegetable/presentation/home/farmerexplore.dart';
 import 'package:vegetable/presentation/home/search.dart';
+
 import 'package:vegetable/presentation/services/searchservice.dart';
 
 class Searchpage extends StatefulWidget {
@@ -24,6 +27,7 @@ class _SearchpageState extends State<Searchpage> {
 
   bool isLoading = false;
   List<User>? farmers;
+  
   final AuthService authservice = AuthService();
 
   late List<String> autoCompleteData;
@@ -60,18 +64,25 @@ class _SearchpageState extends State<Searchpage> {
     setState(() {});
   }
 
-  fetchSearchedProduct() async {
-    farmers = await searchServices.fetchSearchedProduct(
-        context: context, searchQuery: controller.text);
-    setState(() {});
+  // fetchSearchedProduct() async {
+  //   farmers = await searchServices.fetchSearchedProduct(
+  //       context: context, searchQuery: controller.text);
+  //   setState(() {});
+  // }
+  void onscreenpage(String query) {
+    Navigator.of(context).push(PageTransition(
+        child: Searchpage(),
+        type: PageTransitionType.rightToLeftWithFade,
+        childCurrent: Container()));
   }
-  void onscreenpage(String query){
-     Navigator.of(context).push(PageTransition(
-                      child:  Searchpage(),
-                      type: PageTransitionType.rightToLeftWithFade,
-                      childCurrent: Container()));
+
+  void navigateToSearchScreen(String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
-  
+
+  void navigateToSearch(String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +95,7 @@ class _SearchpageState extends State<Searchpage> {
                 height: 10,
               ),
               const Text(
-                "Search the vegetable",
+                "Search the farmer",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 textAlign: TextAlign.left,
               ),
@@ -190,8 +201,7 @@ class _SearchpageState extends State<Searchpage> {
                                       this.controller = controller;
 
                                       return TextField(
-                                        onSubmitted:onscreenpage,
-                                        controller: controller,
+                                        onSubmitted: navigateToSearchScreen,
                                         focusNode: focusNode,
                                         onEditingComplete: onEditingComplete,
                                         decoration: InputDecoration(
@@ -213,7 +223,7 @@ class _SearchpageState extends State<Searchpage> {
                                               borderSide: const BorderSide(
                                                   color: Colors.white),
                                             ),
-                                            hintText: "Search vegetable",
+                                            hintText: "Search the farmer",
                                             prefixIcon: const Icon(
                                               Icons.search,
                                               size: 20,
@@ -258,22 +268,8 @@ class _SearchpageState extends State<Searchpage> {
                                         MainAxisAlignment.spaceAround,
                                     children: [
                                       const CustomCategoriesList(),
-                                      const CustomSlider(),
                                       Row(
                                         children: [
-                                          Expanded(
-                                              child: MaterialButton(
-                                            onPressed: () {},
-                                            color: Colors.black,
-                                            child: const Text(
-                                              "done",
-                                              style: TextStyle(
-                                                  color: Colors.white),
-                                            ),
-                                          )),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
                                           Expanded(
                                               child: MaterialButton(
                                                   onPressed: () {
@@ -299,6 +295,41 @@ class _SearchpageState extends State<Searchpage> {
                   )),
                 ],
               ),
+              SizedBox(
+                height: 10,
+              ),
+              Text("Or"),
+              TextField(
+                onSubmitted: navigateToSearch,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    hintText: "search the place",
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      size: 20,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: const Icon(
+                        Icons.cancel_sharp,
+                        size: 20,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        controller.clear();
+                      },
+                    )),
+              ),
               // Search Suggestions
               Container(
                 width: 600,
@@ -317,8 +348,8 @@ class _SearchpageState extends State<Searchpage> {
                     ),
                     Row(
                       children: [
-                        searchSuggestionsTiem("beans"),
-                        searchSuggestionsTiem("carrot"),
+                        searchSuggestionsTiem("farmer name"),
+                        searchSuggestionsTiem("place"),
                       ],
                     ),
                     const SizedBox(
@@ -326,8 +357,8 @@ class _SearchpageState extends State<Searchpage> {
                     ),
                     Row(
                       children: [
-                        searchSuggestionsTiem("tomato"),
-                        searchSuggestionsTiem("potato"),
+                        searchSuggestionsTiem("district"),
+                        searchSuggestionsTiem("village"),
                       ],
                     ),
                   ],
@@ -348,7 +379,6 @@ class _SearchpageState extends State<Searchpage> {
                       ),
                       Column(
                         children: [
-                          /*
                           farmers == null
                               ? Loader()
                               : SizedBox(
@@ -367,33 +397,35 @@ class _SearchpageState extends State<Searchpage> {
                                       separatorBuilder: (context, index) =>
                                           const Divider(height: 10),
                                       itemCount: farmers!.length),
-                                ),*/
-
-                                products == null
-          ? const Loader()
-          : Column(
-              children: [
-
-                const SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: products!.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                           Navigator.of(context).push(PageTransition(
-                      child: Farmerexplore(category: "tomato",),
-                      type: PageTransitionType.rightToLeftWithFade,
-                      childCurrent: Container()));
-                        },
-                        
-                        
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+                                ),
+                          products == null
+                              ? const Loader()
+                              : Column(
+                                  children: [
+                                    const SizedBox(height: 10),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: products!.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                            User  farmer = farmers![index];
+                                              Navigator.of(context).push(
+                                                  PageTransition(
+                                                      child: CardWidget(
+                                                        farmer:farmer
+                                                      ),
+                                                      type: PageTransitionType
+                                                          .rightToLeftWithFade,
+                                                      childCurrent:
+                                                          Container()));
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
                         ],
                       ),
                     ],
@@ -432,6 +464,14 @@ class CustomCategoriesList extends StatefulWidget {
 }
 
 class _CustomCategoriesListState extends State<CustomCategoriesList> {
+  void navigateToSearchScree(String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
+  void navigateToSearchScre(String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
+  }
+
   int _index = 0;
   @override
   Widget build(BuildContext context) {
@@ -466,20 +506,22 @@ class _CustomCategoriesListState extends State<CustomCategoriesList> {
                 onTap: () {
                   setState(() {
                     _index = 1;
+                    navigateToSearchScree("alapuzha");
                   });
                 },
                 color: _index == 1 ? primary : form,
-                text: "Price",
+                text: "Alapuzha",
                 textColor: _index == 1 ? Colors.white : secondaryText,
                 width: _index == 1 ? 65 : 85),
             menuButton(
                 onTap: () {
                   setState(() {
                     _index = 2;
+                    navigateToSearchScre("chengannur");
                   });
                 },
                 color: _index == 2 ? primary : form,
-                text: "Village",
+                text: "village chengannur",
                 textColor: _index == 2 ? Colors.white : secondaryText,
                 width: _index == 2 ? 65 : 85),
           ],
@@ -512,88 +554,6 @@ class _CustomCategoriesListState extends State<CustomCategoriesList> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CustomSlider extends StatefulWidget {
-  const CustomSlider({Key? key}) : super(key: key);
-
-  @override
-  State<CustomSlider> createState() => _CustomSliderState();
-}
-
-class _CustomSliderState extends State<CustomSlider> {
-  double slider = 30;
-  @override
-  Widget build(BuildContext context) {
-    const Color primary = Color(0xFF1FCC79);
-
-    return Column(
-      children: [
-        const Row(
-          children: [
-            Text(
-              "Price",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-            ),
-            Text(
-              "( in Rs )",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 22),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "< 10",
-                    style: TextStyle(color: primary),
-                  ),
-                  Text(
-                    "30",
-                    style: TextStyle(color: primary),
-                  ),
-                  Text(
-                    "> 50",
-                    style: TextStyle(color: primary),
-                  ),
-                ],
-              ),
-            ),
-            Slider(
-                divisions: 2,
-                activeColor: primary,
-                thumbColor: primary,
-                max: 60,
-                min: 10,
-                value: slider,
-                onChanged: (value) {
-                  setState(() {
-                    slider = value;
-                  });
-                })
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class Loader extends StatelessWidget {
-  const Loader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 }

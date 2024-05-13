@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import 'package:vegetable/presentation/farmerdetails/farmerdb.dart';
+import 'package:vegetable/presentation/farmerdetails/farmermodel.dart';
 import 'package:vegetable/presentation/farmer/farmerauthservice.dart';
+import 'package:vegetable/presentation/farmerdetails/farmerprovider.dart';
 import 'package:vegetable/presentation/home/appbannerlist.dart';
 import 'package:vegetable/presentation/home/banneritem.dart';
 import 'package:vegetable/presentation/home/card/card_widget.dart';
 import 'package:vegetable/presentation/home/customappbar/customappbar.dart';
 import 'package:vegetable/presentation/home/indicator.dart';
+import 'package:vegetable/presentation/home/search.dart';
 import 'package:vegetable/presentation/home/serchpage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:vegetable/presentation/home/vegetablelisting.dart';
-
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,7 +26,7 @@ class _HomeState extends State<Home> {
   final AuthService authservice = AuthService();
 
   var _selectedindex = 0;
-  
+
   int current = 0;
 
   @override
@@ -37,10 +40,11 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
+  DB db = DB();
   @override
   Widget build(BuildContext context) {
+    final cart = Provider.of<FarmerProvider>(context);
     return Scaffold(
-     
       body: ListView(children: [
         const Appbarwidget(),
         Padding(
@@ -65,7 +69,7 @@ class _HomeState extends State<Home> {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(PageTransition(
-                      child:  Searchpage(),
+                      child: Searchpage(),
                       type: PageTransitionType.rightToLeftWithFade,
                       childCurrent: Container()));
                 },
@@ -92,7 +96,6 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-
         Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -122,47 +125,50 @@ class _HomeState extends State<Home> {
           ],
         ),
         const SizedBox(height: 10),
-
-       const VegetableListing(),
-       const SizedBox(
-          height: 10
-  
+        const VegetableListing(),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: const Text(
+            "Farmer",
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+          ),
         ),
-      Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: const  Text("Farmer",style: TextStyle(fontSize: 40,fontWeight: FontWeight.bold),),
-      ),
         const SizedBox(
           height: 10,
         ),
-      farmers==null?const Loader():  Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 4000,
-                    child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final farmer = farmers![index];
-
-                          return CardWidget(
-                            farmer: farmer,
-                          );
-                        },
-                        separatorBuilder: (context, index) =>
-                            const Divider(height: 10),
-                        itemCount: farmers!.length),
+        farmers == null
+            ? const Loader()
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 4000,
+                        child: ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              final farmer = farmers![index];
+                             
+                              return CardWidget(
+                                farmer: farmer,
+                                index:index,
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const Divider(height: 10),
+                            itemCount: farmers!.length),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
       ]),
     );
   }
 }
+
 class Loader extends StatelessWidget {
   const Loader({Key? key}) : super(key: key);
 

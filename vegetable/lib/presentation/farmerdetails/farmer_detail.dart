@@ -166,28 +166,12 @@ class _FarmersState extends State<Farmers> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            CircleAvatar(
-                              radius: 25,
-                              backgroundColor: const Color(0xFF1FCC79),
-                              child: IconButton(
-                                icon: const Icon(Icons.heart_broken),
-                                color: Colors.white,
-                                onPressed: () {
-                                  print(user![0].vegetable![0]);
-                                },
-                              ),
-                            ),
+                             
                             const SizedBox(
                               width: 5,
                               height: 10,
                             ),
-                            const Expanded(
-                              child: Text(
-                                "273 Likes",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                            ),
+                           
                             MaterialButton(
                               onPressed: () {
                                 Navigator.of(context).push(PageTransition(
@@ -246,9 +230,10 @@ class _FarmersState extends State<Farmers> {
                                 child: ListView.separated(
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
+                                
                                       //      final vegetable =
                                       //   widget.vegetable![index];
-                                      //      final vegetabless = user![index];
+                                          final vegetabless = user![index];
                                       //      final vegetable =     vegetabless.vegetable![0]['product'];
                                       final vegetable = products![index];
                                       return ingredients(
@@ -294,7 +279,7 @@ class _FarmersState extends State<Farmers> {
                                     // final vegetable = widget.vegetable![index];
                                     // final vegetable = Product.fromMap( productCart![index]['product']);
 
-                                   // final vegetable = Product.fromMap(
+                                    // final vegetable = Product.fromMap(
                                     //    user![0].vegetable![0]['product']);
                                     //final vegetable =  vegetabless.vegetable![0]['vegetable'];
                                     final vegetable = products![index];
@@ -413,12 +398,11 @@ class GroceryItemTile extends StatelessWidget {
                                 MaterialButton(
                                   onPressed: () {
                                     
-                                    print(index);
                                     print(vegetable.name.toString());
                                     print(vegetable.price.toString());
-                                    
+
                                     print('1');
-                                    
+
                                     print(vegetable.images![0].toString());
 
                                     dbHelper!
@@ -427,16 +411,18 @@ class GroceryItemTile extends StatelessWidget {
                                             productId: index.toString(),
                                             productName:
                                                 vegetable.name.toString(),
-                                            initialPrice: vegetable.price.round(),
-                                            productPrice: vegetable.price.round(),
-                                            quantity:int.parse( quantitycontroller.text),
-                                            unitTag:
-                                                "gram",
-                                            image:
-                                                vegetable.images![0].toString()))
+                                            initialPrice:
+                                                vegetable.price.round(),
+                                            productPrice:
+                                                vegetable.price.round(),
+                                            quantity: int.parse(
+                                                quantitycontroller.text),
+                                            unitTag: "gram",
+                                            image: vegetable.images![0]
+                                                .toString()))
                                         .then((value) {
-                                      cart.addTotalPrice(double.parse(
-                                          vegetable.toString()));
+                                      cart.addTotalPrice(
+                                          double.parse(vegetable.toString()));
                                       cart.addCounter();
 
                                       final snackBar = SnackBar(
@@ -569,7 +555,7 @@ ingredients(BuildContext context, String vegetable, String quantity) {
           ],
         ),
       ),
-      const Text("out of stock")
+      const Text("in stock")
     ],
   );
 }
