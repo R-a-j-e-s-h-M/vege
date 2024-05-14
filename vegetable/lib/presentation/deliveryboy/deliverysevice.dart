@@ -137,10 +137,7 @@ class DeliveryService {
               .setUser(res.body);
           await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
           // ignore: use_build_context_synchronously
-          Navigator.of(context).push(PageTransition(
-              child: const Home(),
-              type: PageTransitionType.bottomToTopJoined,
-              childCurrent: Container()));
+        
         },
       );
     } catch (e) {
@@ -249,7 +246,7 @@ void httpErrorHandle({
     case 200:
       onSuccess();
       Navigator.of(context).push(PageTransition(
-          child:  AuthEmailApp(),
+          child:  Deliverypage(),
           type: PageTransitionType.rightToLeftWithFade,
           childCurrent: Container()));
       break;

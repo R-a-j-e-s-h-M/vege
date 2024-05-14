@@ -74,7 +74,7 @@ class _CustomerorfarmerState extends State<Customerorfarmer> {
                       child: InkWell(
                         onTap: () {
                           Navigator.of(context).push(PageTransition(
-                              child:  Deliverypage(),
+                              child:  Deliveryboy(),
                               type: PageTransitionType.bottomToTopJoined,
                               childCurrent: Container()));
                         },
